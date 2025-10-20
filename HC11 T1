@@ -1,0 +1,25 @@
+-- Type Box 
+data Box = Box String Double
+    deriving (Show)
+
+-- Définition de la classe WeAccept
+class WeAccept a where
+    isAccepted :: a -> Bool
+
+-- Instance WeAccept pour Box
+instance WeAccept Box where
+    isAccepted (Box _ w) = w <= 10
+
+-- Fonction pour filtrer les boîtes acceptées
+acceptedBoxes :: [Box] -> [Box]
+acceptedBoxes = filter isAccepted  -- ici Haskell sait que c'est pour Box
+
+-- Programme principal
+main :: IO ()
+main = do
+    let boxes = [ Box "Petite_boite" 5
+                , Box "Boite_moyenne" 12
+                , Box "Boite_legere" 3
+                ]
+    putStrLn "Boîtes acceptées :"
+    print (acceptedBoxes boxes)
