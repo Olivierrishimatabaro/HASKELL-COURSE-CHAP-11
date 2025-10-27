@@ -1,0 +1,30 @@
+-- HC11T2.hs
+-- Implémentation de la fonction fancyFunction pour la classe WeAccept
+-- Auteur : Olivier Rishi Matabaro
+
+-- Définition de la classe de type
+class WeAccept a where
+    fancyFunction :: a -> String
+
+-- Définition de quelques types de données
+data Cardano = Cardano
+data Cash = Cash
+data Country = Country String
+
+-- Instances de la classe WeAccept
+instance WeAccept Cardano where
+    fancyFunction _ = "We accept Cardano — secure and decentralized!"
+
+instance WeAccept Cash where
+    fancyFunction _ = "We accept Cash — the classic payment method!"
+
+instance WeAccept Country where
+    fancyFunction (Country name) = "We accept payments from " ++ name ++ "!"
+
+-- Fonction principale pour tester les implémentations
+main :: IO ()
+main = do
+    putStrLn (fancyFunction Cardano)
+    putStrLn (fancyFunction Cash)
+    putStrLn (fancyFunction (Country "Rwanda"))
+    putStrLn (fancyFunction (Country "Congo"))
