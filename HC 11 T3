@@ -1,0 +1,26 @@
+data Box a = Box a | EmptyBox
+  deriving (Show)
+
+class Container c where
+    isEmpty  :: c a -> Bool
+    contains :: (Eq a) => c a -> a -> Bool
+    replace  :: c a -> a -> c a
+
+instance Container Box where
+    isEmpty EmptyBox     = True
+    isEmpty (Box _)      = False
+
+    contains EmptyBox _  = False
+    contains (Box x) y   = x == y
+
+    replace EmptyBox new = Box new
+    replace (Box _) new  = Box new
+
+main :: IO ()
+main = do
+    print (isEmpty EmptyBox)
+    print (isEmpty (Box 5))
+    print (contains (Box 10) 10)
+    print (contains (Box 4) 7)
+    print (replace (Box 3) 99)
+    print (replace EmptyBox 42)
