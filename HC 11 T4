@@ -1,0 +1,26 @@
+import Data.List (sortBy)
+
+-- 1️⃣ Fonction pour extraire les noms des joueurs
+extractPlayers :: [(String, Int)] -> [String]
+extractPlayers players = [name | (name, _) <- players]
+
+-- 2️⃣ Fonction pour trier les joueurs par score décroissant
+sortByScore :: [(String, Int)] -> [(String, Int)]
+sortByScore players = reverse (sortBy compareScores players)
+  where
+    compareScores (_, s1) (_, s2) = compare s1 s2
+
+-- 3️⃣ Fonction pour retourner les trois meilleurs joueurs
+topThree :: [(String, Int)] -> [(String, Int)]
+topThree players = take 3 players
+
+-- 4️⃣ Composition : extraire les 3 meilleurs joueurs triés par score décroissant
+getTopThreePlayers :: [(String, Int)] -> [String]
+getTopThreePlayers = extractPlayers . topThree . sortByScore
+
+-- 🔹 Exemple de test :
+main :: IO ()
+main = do
+    let players = [("Olivier", 75), ("Rishi", 90), ("Matabaro", 82), ("Anna", 95), ("John", 98)]
+    putStrLn "Top 3 Players:"
+    print (getTopThreePlayers players)
