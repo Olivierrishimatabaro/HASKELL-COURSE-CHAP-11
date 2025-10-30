@@ -1,0 +1,28 @@
+data Box a = Box a | EmptyBox
+  deriving (Show)
+
+class Container c where
+    isEmpty  :: c a -> Bool
+    contains :: (Eq a) => c a -> a -> Bool
+
+instance Container Box where
+    isEmpty EmptyBox   = True
+    isEmpty (Box _)    = False
+
+    contains EmptyBox _   = False
+    contains (Box x) y    = x == y
+
+guessWhatsInside :: (Eq a, Show a, Container c) => c a -> a -> String
+guessWhatsInside container element
+    | isEmpty container = "La boîte est vide"
+    | contains container element = "J'ai trouvé " ++ show element
+    | otherwise = show element ++ " n'est pas dans la boîte"
+
+main :: IO ()
+main = do
+    let box1 = Box 42
+    let box2 = EmptyBox
+
+    putStrLn $ guessWhatsInside box1 42
+    putStrLn $ guessWhatsInside box1 7
+    putStrLn $ guessWhatsInside box2 42
