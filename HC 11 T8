@@ -1,0 +1,15 @@
+
+data PaymentMethod = Cash | Card | Crypto
+  deriving (Show, Eq, Ord)
+
+main :: IO ()
+main = do
+    let p1 = Cash
+    let p2 = Card
+    let p3 = Crypto
+
+    print (p1 == p2)   -- False
+    print (p2 == Card) -- True
+    print (p1 < p2)    -- True, Cash < Card
+    print (p3 > p2)    -- True, Crypto > Card
+    print (p1 >= Cash) -- True
