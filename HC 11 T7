@@ -1,0 +1,10 @@
+data Box a = Box a | EmptyBox
+  deriving (Show, Eq, Ord)  -- Eq et Ord pour pouvoir utiliser == et <
+
+main :: IO ()
+main = do
+    let b1 = Box 5
+    let b2 = Box 10
+    let b3 = (EmptyBox :: Box Int)  
+    print (b1 < b2)     -- True
+    print (b3 == EmptyBox) -- True
