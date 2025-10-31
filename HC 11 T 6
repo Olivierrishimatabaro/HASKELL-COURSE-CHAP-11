@@ -1,0 +1,24 @@
+data Blockchain = Blockchain { name :: String, blocks :: Int }
+  deriving (Show)
+
+class Eq a => AdvancedEq a where
+    compareEquality :: a -> a -> String
+
+instance Eq Blockchain where
+    (Blockchain n1 b1) == (Blockchain n2 b2) = n1 == n2 && b1 == b2
+
+instance AdvancedEq Blockchain where
+    compareEquality bc1 bc2
+        | bc1 == bc2 = "Les deux blockchains sont identiques"
+        | name bc1 == name bc2 = "Même nom mais nombre de blocs différent"
+        | otherwise = "Les deux blockchains sont différentes"
+
+main :: IO ()
+main = do
+    let cardano1 = Blockchain "Cardano" 1000
+    let cardano2 = Blockchain "Cardano" 800
+    let solana = Blockchain "Solana" 1000
+
+    putStrLn $ compareEquality cardano1 cardano1
+    putStrLn $ compareEquality cardano1 cardano2
+    putStrLn $ compareEquality cardano1 solana
