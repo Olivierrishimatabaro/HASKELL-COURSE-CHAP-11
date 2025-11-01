@@ -1,0 +1,17 @@
+-- Définition du type Length
+data Length = M Double | Km Double
+  deriving (Eq, Show)
+
+-- Instance Ord pour comparer correctement les valeurs
+instance Ord Length where
+  compare (M x) (M y)   = compare x y
+  compare (Km x) (Km y) = compare x y
+  compare (M x) (Km y)  = compare x (y * 1000)    -- 1 km = 1000 m
+  compare (Km x) (M y)  = compare (x * 1000) y
+
+-- Exemple de test
+main :: IO ()
+main = do
+  print (M 500 < Km 1)    -- True (500 m < 1000 m)
+  print (Km 2 > M 1500)   -- True (2000 m > 1500 m)
+  print (Km 1 == M 1000)  -- True
