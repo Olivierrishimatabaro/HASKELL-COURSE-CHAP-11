@@ -1,0 +1,15 @@
+import Data.List (sort)
+
+-- Définition du type Container
+data Container = Box Int | Crate Int | Bag Int
+  deriving (Eq, Ord, Show)
+
+-- Fonction qui trie une liste de containers
+sortContainers :: [Container] -> [Container]
+sortContainers = sort
+
+-- Exemple de test
+main :: IO ()
+main = do
+  let containers = [Box 10, Crate 5, Bag 8, Box 3]
+  print (sortContainers containers)
