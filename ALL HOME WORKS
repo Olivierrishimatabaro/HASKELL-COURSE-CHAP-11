@@ -1,0 +1,64 @@
+import System.Directory (listDirectory)
+import System.CPUTime
+import Text.Printf (printf)
+import Data.List ((\\))
+
+-- Question 1: Count visible entries
+listFiles :: IO ()
+listFiles = do
+  files <- listDirectory "."
+  let count = length files
+  putStrLn $ "There are " ++ show count ++ " visible entries in the current directory."
+
+-- Question 2: Write and read a message
+createMsg :: IO ()
+createMsg = do
+  let msg = "Hello, this is a test message!"
+  writeFile "msg.txt" msg
+  content <- readFile "msg.txt"
+  putStrLn $ "Content in msg.txt: " ++ content
+
+-- Question 3: Measure execution time of an IO action
+timeIO :: IO a -> IO ()
+timeIO action = do
+  start <- getCPUTime
+  _ <- action
+  end <- getCPUTime
+  let diff = fromIntegral (end - start) / (10^12)
+  printf "Execution time: %.6f seconds\n" (diff :: Double)
+
+-- Question 4: Prime number algorithms
+primes1 :: Integer -> [Integer]
+primes1 m = sieve [2 .. m]
+  where sieve [] = []
+        sieve (p:xs) = p : sieve [x | x <- xs, x `mod` p > 0]
+
+primes2 :: Integer -> [Integer]
+primes2 m = sieve [2 .. m]
+  where sieve [] = []
+        sieve (x:xs) = x : sieve (xs \\ [x, x+x .. m])
+
+primes3 :: Integer -> [Integer]
+primes3 m = turner [2 .. m]
+  where turner [] = []
+        turner (p:xs) = p : turner [x | x <- xs, x < p*p || rem x p /= 0]
+
+benchmark :: IO ()
+benchmark = do
+  let limit = 50  -- On fixe une valeur pour un compilateur en ligne
+  putStrLn "\nRunning primes1..."
+  timeIO $ print (last (primes1 limit))
+  putStrLn "\nRunning primes2..."
+  timeIO $ print (last (primes2 limit))
+  putStrLn "\nRunning primes3..."
+  timeIO $ print (last (primes3 limit))
+
+-- Main: run all automatically
+main :: IO ()
+main = do
+  putStrLn "=== Question 1 ==="
+  listFiles
+  putStrLn "\n=== Question 2 ==="
+  createMsg
+  putStrLn "\n=== Question 3 & 4 ==="
+  benchmark
