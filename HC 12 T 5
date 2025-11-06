@@ -1,0 +1,16 @@
+
+
+import Data.Char (toLower)
+
+isPalindrome :: String -> Bool
+isPalindrome str = cleaned == reverse cleaned
+  where
+    cleaned = map toLower [c | c <- str, c /= ' ']
+
+main :: IO ()
+main = do
+    let testStr = "ETIKITE"
+    putStrLn ("Texte testé : " ++ testStr)
+    if isPalindrome testStr
+        then putStrLn "✅ C'est un palindrome !"
+        else putStrLn "❌ Ce n'est pas un palindrome."
