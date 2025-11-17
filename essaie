@@ -1,0 +1,12 @@
+-- Main.hs
+import SumNonEmpty
+
+main :: IO ()
+main = do
+    let numbers = [5, 10, 15, 20]
+
+    putStrLn "La liste est :"
+    print numbers
+
+    putStrLn "La somme est :"
+    print (sumNonEmpty numbers)
